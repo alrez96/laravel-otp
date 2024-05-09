@@ -2,7 +2,6 @@
 
 namespace Alrez96\LaravelOtp;
 
-use Carbon\Carbon;
 use Exception;
 use Alrez96\LaravelOtp\OtpToken;
 use Illuminate\Support\Facades\Hash;
@@ -37,13 +36,13 @@ class Otp
                 $generatedToken = $this->generateAlphanumericToken($length);
                 break;
             default:
-                throw new Exception("{$type} is not a supported type");
+                throw new Exception("{$type} is not a supported type!");
         }
 
         OtpToken::create([
             'identifier' => $identifier,
             'token' => Hash::make($generatedToken),
-            'expired_at' => Carbon::now()->addMinutes($validity),
+            'expired_at' => now()->addMinutes($validity),
         ]);
 
         return $generatedToken;
@@ -59,23 +58,20 @@ class Otp
     public function validateToken(string $identifier, string $token): bool
     {
         $otp = OtpToken::where('identifier', $identifier)
+            ->where('expired_at', '>', now())
             ->whereNull('used_at')
             ->latest()
             ->first();
 
-        if (!$otp) {
+        if (!$otp || !Hash::check($token, $otp->token)) {
             return false;
         }
 
-        if (!($otp->expired_at->isPast()) && Hash::check($token, $otp->token)) {
-            $otp->used_at = Carbon::now();
+        $otp->used_at = now();
 
-            $otp->save();
+        $otp->save();
 
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     /**
