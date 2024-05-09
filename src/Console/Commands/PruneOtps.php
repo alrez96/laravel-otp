@@ -3,7 +3,6 @@
 namespace Alrez96\LaravelOtp\Console\Commands;
 
 use Alrez96\LaravelOtp\OtpToken;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Attribute\AsCommand;
 
@@ -31,11 +30,11 @@ class PruneOtps extends Command
      */
     public function handle()
     {
-        $oldOtps = OtpToken::whereDate('expired_at', '<', Carbon::now())
+        $oldOtps = OtpToken::where('expired_at', '<', now())
             ->orWhereNotNull('used_at')->delete();
 
         $this->info("Found {$oldOtps} expired or used otp tokens.");
-        $this->info($oldOtps ? 'All expired or used otp tokens deleted' : 'No otp tokens were deleted');
+        $this->info($oldOtps ? 'All expired or used otp tokens deleted!' : 'No otp tokens were deleted!');
 
         return 0;
     }
