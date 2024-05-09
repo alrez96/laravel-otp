@@ -84,4 +84,25 @@ class OtpTest extends TestCase
         $this->assertIsBool($otpValidated);
         $this->assertFalse($otpValidated);
     }
+
+    /**
+     * Test otp helper is instance of otp class.
+     */
+    public function test_otp_helper_is_instance_of_otp_class(): void
+    {
+        $this->assertInstanceOf(Otp::class, otp());
+    }
+
+    /**
+     * Test it can validate otp token with helper.
+     */
+    public function test_it_can_validate_token_with_helper(): void
+    {
+        $otpToken = otp()->generateToken('test@example.com');
+
+        $otpValidated = otp()->validateToken('test@example.com', $otpToken);
+
+        $this->assertIsBool($otpValidated);
+        $this->assertTrue($otpValidated);
+    }
 }
