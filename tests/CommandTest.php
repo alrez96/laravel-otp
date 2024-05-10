@@ -18,13 +18,13 @@ class CommandTest extends TestCase
 
         $otp->validateToken('test@example.com', $otpToken);
 
-        $this->assertDatabaseHas(config('otp.token_table'), [
+        $this->assertDatabaseHas(config('otp.token_table', 'otp_tokens'), [
             'identifier' => 'test@example.com',
         ]);
 
         Artisan::call('otp:prune');
 
-        $this->assertDatabaseMissing(config('otp.token_table'), [
+        $this->assertDatabaseMissing(config('otp.token_table', 'otp_tokens'), [
             'identifier' => 'test@example.com',
         ]);
     }

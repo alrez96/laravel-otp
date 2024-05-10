@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(config('otp.token_table'), function (Blueprint $table) {
+        Schema::create(config('otp.token_table', 'otp_tokens'), function (Blueprint $table) {
             $table->id();
             $table->string('identifier')->index();
             $table->string('token');
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists(config('otp.token_table'));
+        Schema::dropIfExists(config('otp.token_table', 'otp_tokens'));
     }
 };

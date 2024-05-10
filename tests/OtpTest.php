@@ -18,7 +18,7 @@ class OtpTest extends TestCase
         $otpToken = $otp->generateToken('test@example.com');
 
         $this->assertIsString($otpToken);
-        $this->assertDatabaseHas(config('otp.token_table'), [
+        $this->assertDatabaseHas(config('otp.token_table', 'otp_tokens'), [
             'identifier' => 'test@example.com',
         ]);
     }

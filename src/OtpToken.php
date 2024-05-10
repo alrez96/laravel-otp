@@ -10,7 +10,7 @@ class OtpToken extends Model
     {
         parent::__construct($attributes);
 
-        $this->table = config('otp.token_table') ?: parent::getTable();
+        $this->table = config('otp.token_table', 'otp_tokens') ?: parent::getTable();
     }
 
     /**
