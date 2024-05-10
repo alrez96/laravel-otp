@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class OtpToken extends Model
 {
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->table = config('otp.token_table', 'otp_tokens') ?: parent::getTable();
+    }
+
     /**
      * The attributes that are mass assignable.
      *

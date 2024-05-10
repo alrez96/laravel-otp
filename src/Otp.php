@@ -24,9 +24,15 @@ class Otp
         ?int $length = null,
         ?int $validity = null
     ): string {
-        $type = $type ?: config('otp.token_type', 'numeric');
-        $length = $length ?: config('otp.token_length', 6);
-        $validity = $validity ?: config('otp.token_validity', 2);
+        $type = $type ?: config('otp.token_type');
+        $length = $length ?: config('otp.token_length');
+        $validity = $validity ?: config('otp.token_validity');
+
+        if ($length < 1 || $validity < 1) {
+            throw new Exception(
+                'The ' .  (($length < 1) ? 'length' : 'validity') . ' must be set to a value greater than 1!'
+            );
+        }
 
         switch ($type) {
             case 'numeric':
@@ -80,17 +86,9 @@ class Otp
      * @param int $length
      * @return string
      */
-    private function generateNumericToken(int $length = 6): string
+    private function generateNumericToken(int $length): string
     {
-        $i = 0;
-        $token = '';
-
-        while ($i < $length) {
-            $token .= random_int(0, 9);
-            $i++;
-        }
-
-        return $token;
+        return substr_replace((string) random_int(10 ** ($length - 1), 10 ** ($length) - 1), random_int(0, 9), 0, 1);
     }
 
     /**
@@ -99,12 +97,8 @@ class Otp
      * @param int $length
      * @return string
      */
-    private function generateAlphanumericToken(int $length = 6): string
+    private function generateAlphanumericToken(int $length): string
     {
-        return substr(
-            str_shuffle('0123456789abcdefghijklmnopqrstuvwxyz'),
-            0,
-            $length
-        );
+        return substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyz'), 0, $length);
     }
 }

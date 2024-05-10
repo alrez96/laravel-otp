@@ -43,7 +43,10 @@
         "laravel": {
             "providers": [
                 "Alrez96\\LaravelOtp\\OtpServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Otp": "Alrez96\\LaravelOtp\\Facades\\Otp"
+            }
         }
     },
     "minimum-stability": "dev",
