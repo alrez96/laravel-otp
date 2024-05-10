@@ -30,11 +30,9 @@ php artisan vendor:publish --provider="Alrez96\LaravelOtp\OtpServiceProvider"
 ```php
 <?php
 
-use Alrez96\LaravelOtp\Otp;
+use Alrez96\LaravelOtp\Facades\Otp;
 
-$otp = new Otp;
-
-$otp->generateToken(string $identifier);
+Otp::generateToken(string $identifier);
 
 // or using helper
 
@@ -46,11 +44,9 @@ otp()->generateToken(string $identifier);
 ```php
 <?php
 
-use Alrez96\LaravelOtp\Otp;
+use Alrez96\LaravelOtp\Facades\Otp;
 
-$otp = new Otp;
-
-$otp->validateToken(string $identifier, string $token);
+Otp::validateToken(string $identifier, string $token);
 
 // or using helper
 
