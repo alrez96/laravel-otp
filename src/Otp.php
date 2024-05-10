@@ -24,9 +24,9 @@ class Otp
         ?int $length = null,
         ?int $validity = null
     ): string {
-        $type = $type ?: config('otp.token_type', 'numeric');
-        $length = $length ?: config('otp.token_length', 6);
-        $validity = $validity ?: config('otp.token_validity', 2);
+        $type = $type ?: config('otp.token_type');
+        $length = $length ?: config('otp.token_length');
+        $validity = $validity ?: config('otp.token_validity');
 
         if ($length < 1 || $validity < 1) {
             throw new Exception(

@@ -37,4 +37,15 @@ return [
 
     'token_validity' => env('OTP_TOKEN_VALIDITY', 2),
 
+    /*
+    |--------------------------------------------------------------------------
+    | OTP Token Database Table
+    |--------------------------------------------------------------------------
+    |
+    | The name of the database table in which tokens should be stored.
+    |
+    */
+
+    'token_table' => env('OTP_TOKEN_TABLE', 'otp_tokens'),
+
 ];

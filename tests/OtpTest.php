@@ -17,7 +17,7 @@ class OtpTest extends TestCase
         $otpToken = $otp->generateToken('test@example.com');
 
         $this->assertIsString($otpToken);
-        $this->assertDatabaseHas('otp_tokens', [
+        $this->assertDatabaseHas(config('otp.token_table'), [
             'identifier' => 'test@example.com',
         ]);
     }
@@ -61,7 +61,7 @@ class OtpTest extends TestCase
 
         $otpToken = $otp->generateToken('test@example.com');
 
-        Carbon::setTestNow(Carbon::now()->addMinutes(config('otp.token_validity', 2) + 1));
+        Carbon::setTestNow(Carbon::now()->addMinutes(config('otp.token_validity') + 1));
 
         $otpValidated = $otp->validateToken('test@example.com', $otpToken);
 
