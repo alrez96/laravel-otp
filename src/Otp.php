@@ -82,15 +82,7 @@ class Otp
      */
     private function generateNumericToken(int $length = 6): string
     {
-        $i = 0;
-        $token = '';
-
-        while ($i < $length) {
-            $token .= random_int(0, 9);
-            $i++;
-        }
-
-        return $token;
+        return substr_replace((string) random_int(10 ** ($length - 1), 10 ** ($length) - 1), random_int(0, 9), 0, 1);
     }
 
     /**
@@ -101,10 +93,6 @@ class Otp
      */
     private function generateAlphanumericToken(int $length = 6): string
     {
-        return substr(
-            str_shuffle('0123456789abcdefghijklmnopqrstuvwxyz'),
-            0,
-            $length
-        );
+        return substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyz'), 0, $length);
     }
 }
