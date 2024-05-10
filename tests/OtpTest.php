@@ -3,6 +3,7 @@
 namespace Alrez96\LaravelOtp\Tests;
 
 use Alrez96\LaravelOtp\Otp;
+use Alrez96\LaravelOtp\Facades\Otp as OtpFacade;
 use Carbon\Carbon;
 
 class OtpTest extends TestCase
@@ -101,6 +102,19 @@ class OtpTest extends TestCase
         $otpToken = otp()->generateToken('test@example.com');
 
         $otpValidated = otp()->validateToken('test@example.com', $otpToken);
+
+        $this->assertIsBool($otpValidated);
+        $this->assertTrue($otpValidated);
+    }
+
+    /**
+     * Test it can validate otp token with facade.
+     */
+    public function test_it_can_validate_token_with_facade(): void
+    {
+        $otpToken = OtpFacade::generateToken('test@example.com');
+
+        $otpValidated = OtpFacade::validateToken('test@example.com', $otpToken);
 
         $this->assertIsBool($otpValidated);
         $this->assertTrue($otpValidated);
